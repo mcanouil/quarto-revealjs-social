@@ -1,0 +1,61 @@
+# _schema.yml for "social" filter extension
+# Describes options for IDE tooling and runtime validation.
+
+$schema: https://m.canouil.dev/quarto-wizard/assets/schema/v2/extension-schema.json
+
+# Extension-level metadata options.
+# Configured in _quarto.yml, _metadata.yml, or document front matter:
+#   extensions:
+#     social:
+#       image: assets/social-card.png
+options:
+  enabled:
+    type: boolean
+    default: true
+    description: "Enable or disable the social filter."
+  title:
+    type: string
+    description: "Social-card title. Falls back to open-graph.title, twitter-card.title, then the document title."
+  description:
+    type: string
+    description: "Social-card description. Falls back to open-graph.description, twitter-card.description, then the document description."
+  image:
+    type: string
+    description: "Social-card image path or URL. Falls back to open-graph.image, twitter-card.image, then the document image."
+  image-width:
+    type: string
+    description: "Social-card image width in pixels."
+  image-height:
+    type: string
+    description: "Social-card image height in pixels."
+  image-alt:
+    type: string
+    description: "Alternative text describing the social-card image."
+  image-type:
+    type: string
+    description: "IANA media type of the image (e.g. image/png). Inferred from the file extension when omitted."
+  locale:
+    type: string
+    description: "Content locale for og:locale (e.g. en_GB). Falls back to the document lang."
+  site-name:
+    type: string
+    description: "Site name for og:site_name."
+  site-url:
+    type: string
+    description: "Base URL used to build absolute og:url and og:image URLs from relative paths."
+  url:
+    type: string
+    description: "Canonical page URL for og:url. Defaults to site-url."
+  type:
+    type: string
+    default: "website"
+    description: "Open Graph object type for og:type."
+  card-style:
+    type: string
+    description: "Twitter card style for twitter:card. Defaults to summary_large_image when an image is set, otherwise summary."
+  twitter-site:
+    type: string
+    description: "Twitter @username of the site for twitter:site."
+  twitter-creator:
+    type: string
+    description: "Twitter @username of the content creator for twitter:creator."
