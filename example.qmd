@@ -1,0 +1,41 @@
+---
+title: "RevealJS Social"
+subtitle: "Quarto Extension"
+description: "A Quarto extension that adds Open Graph and Twitter (X) social-card meta tags to RevealJS presentations."
+author:
+  - name: "Mickaël CANOUIL, _Ph.D._"
+    orcid: "0000-0002-3396-4549"
+    url: "https://mickael.canouil.fr"
+lang: en-GB
+site-url: "https://m.canouil.dev/quarto-revealjs-social/"
+image: "quarto-revealjs-social.png"
+open-graph:
+  site-name: "Quarto Extensions"
+  image-width: 1200
+  image-height: 630
+  image-alt: "Social Reveal.js Card"
+format:
+  revealjs:
+    output-file: index
+    embed-resources: false
+filters:
+  - social
+---
+
+## Social cards for slides
+
+This deck injects Open Graph and Twitter (X) `<meta>` tags into the `<head>`.
+
+Inspect the rendered `index.html`: the `<head>` contains `og:title`, `og:description`, `og:image`, `og:url`, and the matching `twitter:*` tags.
+
+## Metadata resolution
+
+Values come from the standard Quarto keys (`title`, `description`, `image`, `open-graph`, `twitter-card`, `site-url`).
+
+Scoped `extensions.social.*` options override them when set.
+
+## Resource discovery
+
+`image` is a local path (`quarto-revealjs-social.png`).
+
+The filter registers it with `quarto.doc.add_resource` so Quarto copies the file on publish, and builds an absolute `og:image` URL from `site-url`.
