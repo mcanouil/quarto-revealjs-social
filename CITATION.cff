@@ -9,5 +9,5 @@ authors:
 repository-code: "https://github.com/mcanouil/quarto-revealjs-social"
 url: "https://m.canouil.dev/quarto-revealjs-social/"
 license: "MIT"
-date-released: "2026-07-02"
-version: 0.0.0
+date-released: "2026-07-10"
+version: 0.1.0
