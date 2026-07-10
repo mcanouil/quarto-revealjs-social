@@ -8,7 +8,7 @@ This extension fills that gap: it reads the standard Quarto social metadata you 
 ## Installation
 
 ```bash
-quarto add mcanouil/quarto-revealjs-social
+quarto add mcanouil/quarto-revealjs-social@1.0.0
 ```
 
 This will install the extension under the `_extensions` subdirectory.
