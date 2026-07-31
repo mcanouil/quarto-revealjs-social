@@ -1,0 +1,81 @@
+---
+title: "RevealJS Social"
+subtitle: "Open Graph and Twitter card tags for slide decks."
+description: "What the social extension adds to a RevealJS presentation, how to enable it, and what Quarto already emits by itself."
+authors:
+  - name: "Mickaël CANOUIL, _Ph.D._"
+    orcid: "0000-0002-3396-4549"
+    url: "https://mickael.canouil.fr"
+---
+
+A link to a slide deck is shared far more often than the deck is opened, and a link with no card behind it previews as a bare URL.
+
+`social` reads the social metadata already in a presentation's front matter and writes the corresponding `<meta>` tags into its head.
+
+::: {.callout-important}
+## Quarto now emits some of these itself
+
+On the Quarto version this site is built with, a RevealJS deck already receives twelve social tags without any filter.
+This extension adds the six that are still missing, `og:url` and `og:type` among them, and re-emits ten that Quarto has already written.
+
+The [Examples](examples.qmd) page compares two identical decks, one built with the filter and one without, so the overlap is visible rather than described.
+:::
+
+## Installation
+
+```bash
+quarto add {{< var extension.reference >}}
+```
+
+This will install the extension under the `_extensions` subdirectory.
+If you are using version control, you will want to check in this directory.
+
+Or install it from your editor with [Quarto Wizard](https://m.canouil.dev/quarto-wizard):
+
+::: {.btn-group role="group" aria-label="Quarto Wizard installer options"}
+
+[Visual Studio Code](vscode://mcanouil.quarto-wizard/install?repo={{< var extension.wizard-reference >}}){.btn .btn-outline-primary title="Install {{< var extension.reference >}} in Visual Studio Code using the Quarto Wizard extension."}
+[Positron](positron://mcanouil.quarto-wizard/install?repo={{< var extension.wizard-reference >}}){.btn .btn-outline-primary title="Install {{< var extension.reference >}} in Positron using the Quarto Wizard extension."}
+[VSCodium](vscodium://mcanouil.quarto-wizard/install?repo={{< var extension.wizard-reference >}}){.btn .btn-outline-primary title="Install {{< var extension.reference >}} in VSCodium using the Quarto Wizard extension."}
+
+:::
+
+## Quick start
+
+```yaml
+filters:
+  - social
+```
+
+The standard Quarto keys are enough:
+
+```yaml
+title: "The Grammar of Graphics Assembles"
+description: "A talk on a native Typst grammar-of-graphics package."
+site-url: "https://example.com/my-talk/"
+image: "assets/social-card.png"
+open-graph:
+  image-width: 1200
+  image-height: 630
+twitter-card: true
+```
+
+::: {.callout-warning}
+Social scrapers need an absolute `og:image` URL.
+Set `site-url` so a relative image path is resolved against it, or give an absolute URL.
+The filter warns when a relative path is used without one.
+:::
+
+See the [Reference](reference.qmd) for every tag and where its value comes from, and the [Examples](examples.qmd) for the two decks compared.
+
+## Where it works
+
+RevealJS.
+
+## Links
+
+- [Reference](reference.qmd) for every tag and option.
+- [Examples](examples.qmd) for the two decks compared.
+- [With the filter](preview.html) and [without it](preview-without.html), the decks themselves.
+- [Changelog](changelog.qmd) for what each release changed.
+- [Source and issues](https://github.com/mcanouil/quarto-revealjs-social) on GitHub.

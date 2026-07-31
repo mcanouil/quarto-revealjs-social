@@ -1,0 +1,99 @@
+---
+title: "Reference"
+subtitle: "Every tag the social extension emits."
+description: "The complete social configuration: the resolution order for each tag, every option, and the overlap with Quarto's own metadata."
+---
+
+## Enabling the filter
+
+```yaml
+filters:
+  - social
+```
+
+## Metadata resolution
+
+Each tag is resolved from the first available standard source, then from the scoped fallback under `extensions.social`.
+
+| Emitted tag | Standard source | Scoped fallback |
+| --- | --- | --- |
+| `og:title`, `twitter:title` | `open-graph.title`, `twitter-card.title`, `title` | `title` |
+| `description`, `og:description`, `twitter:description` | `open-graph.description`, `twitter-card.description`, `description` | `description` |
+| `og:image`, `twitter:image` | `open-graph.image`, `twitter-card.image`, `image` | `image` |
+| `og:image:width`, `og:image:height` | `open-graph.image-width`, `open-graph.image-height` | `image-width`, `image-height` |
+| `og:image:alt`, `twitter:image:alt` | `open-graph.image-alt` | `image-alt` |
+| `og:site_name` | `open-graph.site-name` | `site-name` |
+| `og:locale` | `open-graph.locale`, `lang` | `locale` |
+| `og:url` | `site-url`, `url` | `url`, `site-url` |
+| `twitter:card` | `twitter-card.card-style` | `card-style` |
+| `twitter:site`, `twitter:creator` | `twitter-card.site`, `twitter-card.creator` | `twitter-site`, `twitter-creator` |
+
+: Where each tag's value comes from. {.striped .hover tbl-colwidths="[34,44,22]"}
+
+The four properties Open Graph requires, `og:title`, `og:type`, `og:image`, and `og:url`, are written whenever a value is available.
+`og:type` defaults to `website`, `og:image:type` is inferred from the file extension, and `og:image:secure_url` is added when the image URL is HTTPS.
+
+## Options
+
+```yaml
+extensions:
+  social:
+    site-url: "https://example.com/my-talk/"
+    image: "assets/social-card.png"
+    image-width: "1200"
+    image-height: "630"
+    image-alt: "Title slide of the talk."
+    site-name: "My Talks"
+    twitter-creator: "@myhandle"
+```
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `enabled` | boolean | `true` | Whether the filter runs. |
+| `title` | string | document title | Card title. |
+| `description` | string | document description | Card description. |
+| `image` | string | document image | Card image, as a path or a URL. |
+| `image-width`, `image-height` | string | | Image dimensions in pixels. |
+| `image-alt` | string | | Alternative text for the image. |
+| `image-type` | string | inferred | Media type, such as `image/png`. |
+| `locale` | string | document `lang` | Locale for `og:locale`, such as `en_GB`. |
+| `site-name` | string | | Value for `og:site_name`. |
+| `site-url` | string | | Base URL, used to make relative image paths absolute. |
+| `url` | string | `site-url` | Canonical page URL for `og:url`. |
+| `type` | string | `website` | Value for `og:type`. |
+| `card-style` | string | `summary_large_image` when an image is set | Value for `twitter:card`. |
+| `twitter-site`, `twitter-creator` | string | | The `@username` of the site and of the creator. |
+
+: Options under `extensions.social`. {.striped .hover tbl-colwidths="[26,12,20,42]"}
+
+## Overlap with Quarto
+
+::: {.callout-important}
+Quarto emits social tags for RevealJS by itself on current versions, which it did not when this extension was written.
+
+A deck rendered with no filter receives twelve tags. The filter adds six more, and re-emits ten of the twelve, so those appear in the head twice.
+:::
+
+| | Tags |
+| --- | --- |
+| Written by Quarto only | `og:image:alt`, `twitter:image:alt` |
+| Written by the filter only | `og:url`, `og:type`, `og:image:width`, `og:image:height`, `og:image:type`, `og:image:secure_url` |
+| Written by both | `og:title`, `og:description`, `og:image`, `og:locale`, `og:site_name`, `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:creator` |
+
+: What each source contributes. {.striped .hover tbl-colwidths="[26,74]"}
+
+The duplicated values are not always identical: Quarto writes `og:locale` as given, and the filter normalises it to the underscored form the protocol specifies.
+
+Scrapers generally take the first occurrence of a property, so the effect is untidiness rather than breakage.
+The [Examples](examples.qmd) page compares the two decks directly.
+
+## Limitations
+
+::: {.callout-warning}
+Social scrapers need an absolute `og:image` URL.
+Set `site-url` so a relative path resolves against it, or give an absolute URL.
+The filter warns when a relative path is used without one.
+:::
+
+- RevealJS only.
+- The tags Quarto now writes itself are written again, as above.

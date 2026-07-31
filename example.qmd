@@ -16,26 +16,25 @@ open-graph:
   image-alt: "Social Reveal.js Card"
 format:
   revealjs:
-    output-file: index
     embed-resources: false
 filters:
   - social
 ---
 
-## Social cards for slides
+## Social cards for a deck
 
-This deck injects Open Graph and Twitter (X) `<meta>` tags into the `<head>`.
+The filter reads the standard Quarto social metadata in this document's front matter and writes the corresponding tags into the head.
 
-Inspect the rendered `index.html`: the `<head>` contains `og:title`, `og:description`, `og:image`, `og:url`, and the matching `twitter:*` tags.
+View the source of this page, and the head carries `og:url`, `og:type`, and the image dimensions, alongside the tags Quarto writes itself.
 
-## Metadata resolution
+## Absolute image URLs
 
-Values come from the standard Quarto keys (`title`, `description`, `image`, `open-graph`, `twitter-card`, `site-url`).
+Scrapers need an absolute `og:image` URL, so set `site-url` and let relative image paths resolve against it.
 
-Scoped `extensions.social.*` options override them when set.
+The filter warns when a relative path is used without one.
 
-## Resource discovery
+## More
 
-`image` is a local path (`quarto-revealjs-social.png`).
+Anything the standard keys cannot express is set under `extensions.social`.
 
-The filter registers it with `quarto.doc.add_resource` so Quarto copies the file on publish, and builds an absolute `og:image` URL from `site-url`.
+Full documentation: <https://m.canouil.dev/quarto-revealjs-social/>.

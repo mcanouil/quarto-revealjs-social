@@ -1,0 +1,37 @@
+---
+title: "The same deck, without the filter"
+subtitle: "The tags Quarto leaves out"
+description: "A slide deck carrying the Open Graph and Twitter card tags this extension emits."
+site-url: "https://m.canouil.dev/quarto-revealjs-social/"
+image: "assets/social-card.png"
+image-alt: "The title slide of this deck."
+open-graph:
+  image-width: 1200
+  image-height: 630
+  site-name: "Quarto Extensions"
+twitter-card:
+  creator: "@mcanouil"
+lang: en-GB
+format:
+  revealjs:
+    theme: default
+    slide-number: true
+---
+
+## What this deck is for
+
+This deck is the twin of the other one, rendered without the filter, so the two heads can be compared.
+
+Its head carries only the tags Quarto emits by itself.
+
+## Where the values came from
+
+The front matter uses the standard Quarto keys: `title`, `description`, `site-url`, `image`, `open-graph`, and `twitter-card`.
+
+Nothing under `extensions.social` is set here, which is the usual case.
+
+## Why it is needed
+
+Quarto emits social metadata for HTML documents and websites, and not for RevealJS.
+
+Without this filter a link to a deck previews as a bare URL.
