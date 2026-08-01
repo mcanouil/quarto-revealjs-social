@@ -24,14 +24,22 @@ Each tag is resolved from the first available standard source, then from the sco
 | `og:image:alt`, `twitter:image:alt` | `open-graph.image-alt` | `image-alt` |
 | `og:site_name` | `open-graph.site-name` | `site-name` |
 | `og:locale` | `open-graph.locale`, `lang` | `locale` |
-| `og:url` | `site-url`, `url` | `url`, `site-url` |
+| `og:url` | `site-url` | `url`, `site-url` |
+| `og:type` | none | `type` |
+| `og:image:type` | none | `image-type` |
 | `twitter:card` | `twitter-card.card-style` | `card-style` |
 | `twitter:site`, `twitter:creator` | `twitter-card.site`, `twitter-card.creator` | `twitter-site`, `twitter-creator` |
 
 : Where each tag's value comes from. {.striped .hover tbl-colwidths="[34,44,22]"}
 
+`og:url` is the one exception to that order: `extensions.social.url` is read before the document's `site-url`, not after it.
+`og:type` and `og:image:type` have no standard source at all and are read only from `extensions.social`.
+
 The four properties Open Graph requires, `og:title`, `og:type`, `og:image`, and `og:url`, are written whenever a value is available.
-`og:type` defaults to `website`, `og:image:type` is inferred from the file extension, and `og:image:secure_url` is added when the image URL is HTTPS.
+`og:type` falls back to `website`, `og:image:type` to the media type inferred from the file extension, and `og:image:secure_url` is added when the image URL is HTTPS.
+
+The alternative text is read from `open-graph.image-alt` and from `extensions.social.image-alt`, and not from a top-level `image-alt`.
+Quarto does read the top-level key, so a deck that sets only that gets `og:image:alt` from Quarto and not from the filter.
 
 ## Options
 
@@ -49,7 +57,7 @@ extensions:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `enabled` | boolean | `true` | Whether the filter runs. |
+| `enabled` | string | `true` | Set to the quoted string `"false"` to stop the filter emitting anything. |
 | `title` | string | document title | Card title. |
 | `description` | string | document description | Card description. |
 | `image` | string | document image | Card image, as a path or a URL. |
@@ -66,25 +74,43 @@ extensions:
 
 : Options under `extensions.social`. {.striped .hover tbl-colwidths="[26,12,20,42]"}
 
+::: {.callout-warning}
+## `enabled` needs a quoted string
+
+The filter compares `enabled` against the string `"false"`, and the accessor it reads through discards a YAML boolean.
+An unquoted `enabled: false` therefore leaves the filter running.
+
+```yaml
+extensions:
+  social:
+    enabled: "false"
+```
+:::
+
 ## Overlap with Quarto
 
 ::: {.callout-important}
 Quarto emits social tags for RevealJS by itself on current versions, which it did not when this extension was written.
 
-A deck rendered with no filter receives twelve tags. The filter adds six more, and re-emits ten of the twelve, so those appear in the head twice.
+The deck this site renders receives twelve tags with no filter.
+The filter writes seventeen: seven the deck did not have, and ten it already had, which then appear in the head twice.
 :::
 
 | | Tags |
 | --- | --- |
 | Written by Quarto only | `og:image:alt`, `twitter:image:alt` |
-| Written by the filter only | `og:url`, `og:type`, `og:image:width`, `og:image:height`, `og:image:type`, `og:image:secure_url` |
+| Written by the filter only | `description`, `og:type`, `og:url`, `og:image:type`, `og:image:secure_url`, `og:image:width`, `og:image:height` |
 | Written by both | `og:title`, `og:description`, `og:image`, `og:locale`, `og:site_name`, `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:creator` |
 
 : What each source contributes. {.striped .hover tbl-colwidths="[26,74]"}
 
-The duplicated values are not always identical: Quarto writes `og:locale` as given, and the filter normalises it to the underscored form the protocol specifies.
+Eight of the ten duplicated tags carry the same value twice.
+Two do not:
 
-Scrapers generally take the first occurrence of a property, so the effect is untidiness rather than breakage.
+- `og:locale`. Quarto rewrites the document `lang` into the underscored form the Open Graph protocol specifies, so `lang: en-GB` reaches Quarto's tag as `en_GB`. The filter passes the value through as written, so its tag reads `en-GB`.
+- `og:site_name`. Quarto takes the site title, and the filter takes the value given under `open-graph.site-name`.
+
+The filter writes its block into the head ahead of Quarto's, so its copy of a duplicated property is the first of the two.
 The [Examples](examples.qmd) page compares the two decks directly.
 
 ## Limitations

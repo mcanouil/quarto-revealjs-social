@@ -16,7 +16,7 @@ A link to a slide deck is shared far more often than the deck is opened, and a l
 ## Quarto now emits some of these itself
 
 On the Quarto version this site is built with, a RevealJS deck already receives twelve social tags without any filter.
-This extension adds the six that are still missing, `og:url` and `og:type` among them, and re-emits ten that Quarto has already written.
+This extension adds seven that are still missing, `og:url` and `og:type` among them, and re-emits ten that Quarto has already written.
 
 The [Examples](examples.qmd) page compares two identical decks, one built with the filter and one without, so the overlap is visible rather than described.
 :::

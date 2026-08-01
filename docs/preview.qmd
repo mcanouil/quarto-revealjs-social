@@ -32,8 +32,8 @@ The front matter uses the standard Quarto keys: `title`, `description`, `site-ur
 
 Nothing under `extensions.social` is set here, which is the usual case.
 
-## Why it is needed
+## What the filter changes
 
-Quarto emits social metadata for HTML documents and websites, and not for RevealJS.
+Quarto writes twelve social tags for this deck by itself.
 
-Without this filter a link to a deck previews as a bare URL.
+The filter writes seventeen: seven Quarto leaves out, `og:url` and `og:type` among them, and ten Quarto has already written.
