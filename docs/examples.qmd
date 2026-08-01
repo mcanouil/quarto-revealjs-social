@@ -1,0 +1,72 @@
+---
+title: "Examples"
+subtitle: "Two identical decks, one filtered."
+description: "The same RevealJS deck rendered with and without the social filter, with the tags each head carries."
+---
+
+This site builds the same deck twice, from the same front matter:
+
+- [with the filter](preview.html);
+- [without it](preview-without.html).
+
+Viewing the source of each, or fetching them, shows what the filter changes.
+
+![](preview.html){.embed-art loading="lazy" title="The deck built with the filter" style="--atelier-embed-art-ratio: 1.78;"}
+
+## What Quarto emits by itself
+
+Rendering the deck with no filter at all produces twelve tags:
+
+```txt
+og:title             og:description       og:image         og:image:alt
+og:locale            og:site_name         twitter:card     twitter:title
+twitter:description  twitter:image        twitter:creator  twitter:image:alt
+```
+
+That is more than the README of this extension assumed, and enough for most previews.
+
+## What the filter adds
+
+Seven tags Quarto does not write for a deck:
+
+| Tag | Why it matters |
+| --- | --- |
+| `description` | The ordinary HTML description, which a deck otherwise has no meta tag for. |
+| `og:url` | One of the four properties the Open Graph protocol requires. |
+| `og:type` | Another of them. Falls back to `website`. |
+| `og:image:width`, `og:image:height` | Let a scraper lay the card out before fetching the image. |
+| `og:image:type` | Inferred from the file extension. |
+| `og:image:secure_url` | Added when the image URL is HTTPS. |
+
+: The tags only the filter writes. {.striped .hover tbl-colwidths="[38,62]"}
+
+## What is written twice
+
+Running both leaves ten tags in the head twice, once from Quarto and once from the filter:
+
+```txt
+og:title  og:description  og:image  og:locale  og:site_name
+twitter:card  twitter:title  twitter:description  twitter:image  twitter:creator
+```
+
+Eight of those ten carry the same value twice.
+The deck sets `lang: en-GB`, and the two `og:locale` tags disagree on it: Quarto rewrites the value into the underscored `en_GB` the Open Graph protocol specifies, while the filter passes it through as `en-GB`.
+The two `og:site_name` tags disagree as well, because Quarto takes the site title and the filter takes the value given under `open-graph.site-name`.
+
+The filter writes its block ahead of Quarto's, so for each duplicated property its copy is the first one in the head.
+
+::: {.callout-note}
+The deck sets `image-alt` at the top level, which Quarto reads and the filter does not, so `og:image:alt` and `twitter:image:alt` come from Quarto alone.
+Setting it under `open-graph.image-alt` instead puts it within the filter's reach.
+:::
+
+## Where each value comes from
+
+The [Reference](reference.qmd#metadata-resolution) has the full resolution order.
+In short: the standard Quarto keys are read first, and `extensions.social` is the fallback for anything they cannot express.
+
+The deck above sets no `extensions.social` options at all, which is the usual case.
+
+## Source
+
+The repository ships a short, standalone starting point you can copy: [`example.qmd`](https://github.com/mcanouil/quarto-revealjs-social/blob/main/example.qmd).
