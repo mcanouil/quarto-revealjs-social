@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Bug Fixes
+
+- fix: Write `og:locale` as `language_TERRITORY`, which is the form Open Graph specifies. A value taken from `lang` is a BCP 47 tag using a hyphen, so `lang: en-GB` produced `en-GB` instead of `en_GB`.
+- fix: Read a top-level `image-alt`, so `og:image:alt` and `twitter:image:alt` are emitted for a document that sets it outside the `open-graph` block.
+- fix: Honour `enabled: false` written as a bare YAML boolean, which was read as an absent option so the filter kept running.
+
 ### Documentation
 
 - docs: Add a documentation website under `docs/`, built on the `atelier` project type and published to <https://m.canouil.dev/quarto-revealjs-social/>, building the same deck with and without the filter so the two heads can be compared.
