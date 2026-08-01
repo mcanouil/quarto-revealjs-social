@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.1 (2026-08-01)
+
 ### Bug Fixes
 
 - fix: Write `og:locale` as `language_TERRITORY`, which is the form Open Graph specifies. A value taken from `lang` is a BCP 47 tag using a hyphen, so `lang: en-GB` produced `en-GB` instead of `en_GB`.
