@@ -26,7 +26,7 @@ end
 --- Provides standardised warning messages with consistent formatting across extensions.
 --- Format: [extension-name] Message with details.
 ---
---- @param extension_name string The name of the extension (e.g., "lua-env")
+--- @param extension_name string The name of the extension (e.g., "external", "lua-env")
 --- @param message string The warning message to display
 --- @usage M.log_warning("lua-env", "No variable name provided.")
 function M.log_warning(extension_name, message)
