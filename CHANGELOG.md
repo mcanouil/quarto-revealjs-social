@@ -4,7 +4,7 @@
 
 ### Bug Fixes
 
-- fix: Read the `enabled` option through the schema, so `enabled: no` removes the social card tags. Comparing the document text left every spelling but `false` emitting them. (#22)
+- fix: Read the `enabled` option through the schema, so a value that is not a boolean is reported rather than ignored. Comparing the document text left every spelling but `false` emitting the card tags in silence. (#22)
 
 ### Documentation
 
