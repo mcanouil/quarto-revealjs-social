@@ -132,7 +132,10 @@ local function process_document(doc)
 
   local meta = doc.meta
 
-  if meta_mod.get_metadata_value(meta, EXTENSION_NAME, 'enabled') == 'false' then
+  -- The schema decides what counts as false, so `enabled: no` disables the
+  -- filter. Reading the document itself left it running. The `Meta` pass above
+  -- resolves the value before this one runs.
+  if checker:option('enabled') == false then
     return doc
   end
 
