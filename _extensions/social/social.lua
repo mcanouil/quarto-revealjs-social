@@ -239,7 +239,9 @@ end
 --- @param meta pandoc.Meta The document metadata
 --- @return pandoc.Meta The metadata, unchanged
 local function check_options(meta)
-  checker:options(meta)
+  if quarto.doc.is_format('revealjs') then
+    checker:options(meta)
+  end
   return meta
 end
 
