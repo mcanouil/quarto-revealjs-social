@@ -38,7 +38,7 @@ Each tag is resolved from the first available standard source, then from the sco
 The four properties Open Graph requires, `og:title`, `og:type`, `og:image`, and `og:url`, are written whenever a value is available.
 `og:type` falls back to `website`, `og:image:type` to the media type inferred from the file extension, and `og:image:secure_url` is added when the image URL is HTTPS.
 
-The alternative text is read from `open-graph.image-alt` and from `extensions.social.image-alt`, and not from a top-level `image-alt`.
+The alternative text is read from `open-graph.image-alt`, then from a top-level `image-alt`.
 Quarto does read the top-level key, so a deck that sets only that gets `og:image:alt` from Quarto and not from the filter.
 
 ## Options
@@ -95,23 +95,26 @@ extensions:
 ::: {.callout-important}
 Quarto emits social tags for RevealJS by itself on current versions, which it did not when this extension was written.
 
-The deck this site renders receives twelve tags with no filter.
-The filter writes seventeen: seven the deck did not have, and ten it already had, which then appear in the head twice.
+The deck this site renders receives sixteen tags with no filter.
+The filter writes nineteen: five the deck did not have, and fourteen it already had, which then appear in the head twice.
 :::
 
 | | Tags |
 | --- | --- |
-| Written by Quarto only | `og:image:alt`, `twitter:image:alt` |
-| Written by the filter only | `description`, `og:type`, `og:url`, `og:image:type`, `og:image:secure_url`, `og:image:width`, `og:image:height` |
-| Written by both | `og:title`, `og:description`, `og:image`, `og:locale`, `og:site_name`, `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:creator` |
+| Written by Quarto only | `twitter:image-width`, `twitter:image-height` |
+| Written by the filter only | `description`, `og:type`, `og:url`, `og:image:type`, `og:image:secure_url` |
+| Written by both | `og:title`, `og:description`, `og:image`, `og:image:alt`, `og:image:width`, `og:image:height`, `og:locale`, `og:site_name`, `twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`, `twitter:image:alt`, `twitter:creator` |
 
 : What each source contributes. {.striped .hover tbl-colwidths="[26,74]"}
 
-Eight of the ten duplicated tags carry the same value twice.
-Two do not:
+These counts are for a deck whose image exists.
+Quarto reads the file to write `og:image:width` and `og:image:height`, so a deck pointing at a missing image gets fewer tags from Quarto and more that only the filter writes.
 
-- `og:locale`. Quarto rewrites the document `lang` into the underscored form the Open Graph protocol specifies, so `lang: en-GB` reaches Quarto's tag as `en_GB`. The filter passes the value through as written, so its tag reads `en-GB`.
+Eleven of the fourteen duplicated tags carry the same value twice.
+Three do not:
+
 - `og:site_name`. Quarto takes the site title, and the filter takes the value given under `open-graph.site-name`.
+- `og:image:alt` and `twitter:image:alt`. Quarto describes the site's own social card, and the filter describes the image the deck set.
 
 The filter writes its block into the head ahead of Quarto's, so its copy of a duplicated property is the first of the two.
 The [Examples](examples.qmd) page compares the two decks directly.

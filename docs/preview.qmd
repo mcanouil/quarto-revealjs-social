@@ -3,8 +3,8 @@ title: "RevealJS Social in a deck"
 subtitle: "The tags Quarto leaves out"
 description: "A slide deck carrying the Open Graph and Twitter card tags this extension emits."
 site-url: "https://m.canouil.dev/quarto-revealjs-social/"
-image: "assets/social-card.png"
-image-alt: "The title slide of this deck."
+image: "assets/social/og-image.png"
+image-alt: "The quarto-revealjs-social social card, which this deck sets as its own image."
 open-graph:
   image-width: 1200
   image-height: 630
@@ -34,6 +34,6 @@ Nothing under `extensions.social` is set here, which is the usual case.
 
 ## What the filter changes
 
-Quarto writes twelve social tags for this deck by itself.
+Quarto writes sixteen social tags for this deck by itself.
 
-The filter writes seventeen: seven Quarto leaves out, `og:url` and `og:type` among them, and ten Quarto has already written.
+The filter writes nineteen: five Quarto leaves out, `og:url` and `og:type` among them, and the fourteen Quarto has already written.
