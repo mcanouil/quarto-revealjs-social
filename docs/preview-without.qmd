@@ -34,4 +34,4 @@ Nothing under `extensions.social` is set here, which is the usual case.
 
 Quarto writes sixteen social tags for this deck by itself.
 
-Absent from this head are the seven the filter adds, `og:url` and `og:type` among them.
+Absent from this head are the five the filter adds, `og:url` and `og:type` among them.
