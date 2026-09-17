@@ -116,7 +116,8 @@ Three do not:
 - `og:site_name`. Quarto takes the site title, and the filter takes the value given under `open-graph.site-name`.
 - `og:image:alt` and `twitter:image:alt`. Quarto describes the site's own social card, and the filter describes the image the deck set.
 
-The filter writes its block into the head ahead of Quarto's, so its copy of a duplicated property is the first of the two.
+Quarto and the filter each write their own tags, and the head interleaves them, so the order of two copies of one property is not fixed.
+A scraper reads the first it meets, so do not rely on either source winning.
 The [Examples](examples.qmd) page compares the two decks directly.
 
 ## Limitations

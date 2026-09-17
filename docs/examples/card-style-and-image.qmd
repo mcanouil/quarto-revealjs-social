@@ -36,7 +36,7 @@ The same deck without `image` receives `summary` instead.
 <meta name="twitter:card" content="summary">
 ```
 
-The site renders a deck of each kind.
+The site renders one deck with the filter and one without.
 The deck [with the filter](../preview.html) sets a PNG image, so its head carries `summary_large_image`.
 
 ## Choosing the card style
