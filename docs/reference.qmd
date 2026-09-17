@@ -57,7 +57,7 @@ extensions:
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `enabled` | string | `true` | Set to the quoted string `"false"` to stop the filter emitting anything. |
+| `enabled` | boolean | `true` | Set to `false` to stop the filter emitting anything. |
 | `title` | string | document title | Card title. |
 | `description` | string | document description | Card description. |
 | `image` | string | document image | Card image, as a path or a URL. |
@@ -75,16 +75,19 @@ extensions:
 : Options under `extensions.social`. {.striped .hover tbl-colwidths="[26,12,20,42]"}
 
 ::: {.callout-warning}
-## `enabled` needs a quoted string
 
-The filter compares `enabled` against the string `"false"`, and the accessor it reads through discards a YAML boolean.
-An unquoted `enabled: false` therefore leaves the filter running.
+## `enabled` takes a boolean alone
+
+The filter reads `enabled` through the extension schema, which accepts `true` and `false` alone, quoted or not.
+Any other value, `yes` and `no` included, is reported and leaves the filter running.
+The [Switching off](examples/switching-off.qmd) example shows what each spelling does.
 
 ```yaml
 extensions:
   social:
-    enabled: "false"
+    enabled: false
 ```
+
 :::
 
 ## Overlap with Quarto

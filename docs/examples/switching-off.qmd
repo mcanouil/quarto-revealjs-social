@@ -1,0 +1,86 @@
+---
+title: "Switching off"
+subtitle: "Stopping the filter without removing it."
+description: "How the enabled option turns the social filter off, which values it accepts, and what stays in the head once it is off."
+---
+
+`enabled` turns the filter off for a whole project or for one deck.
+It is the only option the filter reads through the extension schema, so the default the schema declares applies to it.
+
+That default is `true`.
+A deck that never writes `enabled` gets the tags.
+
+## Turning the filter off
+
+Write `enabled` under `extensions.social`:
+
+```yaml
+title: "The Grammar of Graphics Assembles"
+site-url: "https://example.com/my-talk/"
+image: "assets/social-card.png"
+filters:
+  - social
+extensions:
+  social:
+    enabled: false
+```
+
+The filter then writes no tag at all.
+Put the same block in `_quarto.yml` to turn the filter off for every deck in a project.
+
+## Which values the option accepts
+
+The schema declares `enabled` as a boolean.
+Four spellings resolve to a boolean:
+
+- `true` and `false`, written as bare YAML booleans.
+- `"true"` and `"false"`, written as quoted strings.
+
+::: {.callout-warning}
+
+## `yes`, `no`, `0` and `1` leave the filter running
+
+Pandoc reads each of these four as a string, and the schema refuses a string for a boolean.
+The render reports the value and carries on with the filter still writing tags.
+
+```yaml
+extensions:
+  social:
+    enabled: no
+```
+
+```txt
+(E) [social] enabled: must be of type "boolean", got "string".
+```
+
+:::
+
+## What stays behind once the filter is off
+
+The filter writes no tag, and every tag Quarto writes for the deck stays.
+A deck in a Quarto website with `open-graph` and `twitter-card` turned on therefore keeps a card.
+The [Reference](../reference.qmd#overlap-with-quarto) lists what each source contributes.
+
+The extension still reads the rest of the configuration and reports what it cannot accept.
+A misspelt key under `extensions.social` is reported while `enabled` is `false`.
+
+## Leaving the filter out instead
+
+A deck that never names the filter has nothing to switch off.
+
+```yaml
+filters:
+  - social
+```
+
+Remove those two lines and the deck renders with the tags Quarto writes by itself.
+The site builds one deck [with the filter](../preview.html) and one [without it](../preview-without.html), so the two heads can be compared.
+
+::: {.callout-note}
+
+## Removing the filter and setting `enabled: false` give the same head
+
+Both routes leave Quarto's own tags in place and add nothing.
+`enabled` is the route for a deck inside a project that names the filter in `_quarto.yml`.
+That deck turns the filter off for itself, and every other deck in the project keeps its tags.
+:::
