@@ -38,8 +38,8 @@ Each tag is resolved from the first available standard source, then from the sco
 The four properties Open Graph requires, `og:title`, `og:type`, `og:image`, and `og:url`, are written whenever a value is available.
 `og:type` falls back to `website`, `og:image:type` to the media type inferred from the file extension, and `og:image:secure_url` is added when the image URL is HTTPS.
 
-The alternative text is read from `open-graph.image-alt`, then from a top-level `image-alt`.
-Quarto does read the top-level key, so a deck that sets only that gets `og:image:alt` from Quarto and not from the filter.
+The alternative text is read from `open-graph.image-alt`, then from a top-level `image-alt`, then from `extensions.social.image-alt`.
+Quarto reads the top-level key as well, so a deck that sets only that gets `og:image:alt` from both sources.
 
 ## Options
 
