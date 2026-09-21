@@ -31,10 +31,8 @@ Put the same block in `_quarto.yml` to turn the filter off for every deck in a p
 ## Which values the option accepts
 
 The schema declares `enabled` as a boolean.
-Four spellings resolve to a boolean:
-
-- `true` and `false`, written as bare YAML booleans.
-- `"true"` and `"false"`, written as quoted strings.
+It accepts `true` and `false` in any case, bare or quoted, because the validator lowercases the value before it compares.
+So `True`, `"FALSE"`, and `"true"` all resolve.
 
 ::: {.callout-warning}
 

@@ -25,7 +25,7 @@ This site builds two decks that carry the same social metadata:
 
 Viewing the source of each, or fetching them, shows what the filter changes.
 
-![The deck built with the filter](preview.html){.embed-art loading="lazy" title="The deck built with the filter" style="--atelier-embed-art-ratio: 1.78;"}
+![](preview.html){.embed-art loading="lazy" title="The deck built with the filter" style="--atelier-embed-art-ratio: 1.78;"}
 
 The pair is the plainest demonstration of the filter.
 Only one of the two decks names the filter in its `filters` list.
