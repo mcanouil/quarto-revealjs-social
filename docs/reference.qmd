@@ -21,7 +21,7 @@ Each tag is resolved from the first available standard source, then from the sco
 | `description`, `og:description`, `twitter:description` | `open-graph.description`, `twitter-card.description`, `description` | `description` |
 | `og:image`, `twitter:image` | `open-graph.image`, `twitter-card.image`, `image` | `image` |
 | `og:image:width`, `og:image:height` | `open-graph.image-width`, `open-graph.image-height` | `image-width`, `image-height` |
-| `og:image:alt`, `twitter:image:alt` | `open-graph.image-alt` | `image-alt` |
+| `og:image:alt`, `twitter:image:alt` | `open-graph.image-alt`, `image-alt` | `image-alt` |
 | `og:site_name` | `open-graph.site-name` | `site-name` |
 | `og:locale` | `open-graph.locale`, `lang` | `locale` |
 | `og:url` | `site-url` | `url`, `site-url` |
@@ -40,6 +40,7 @@ The four properties Open Graph requires, `og:title`, `og:type`, `og:image`, and 
 
 The alternative text is read from `open-graph.image-alt`, then from a top-level `image-alt`, then from `extensions.social.image-alt`.
 Quarto reads the top-level key as well, so a deck that sets only that gets `og:image:alt` from both sources.
+A site-level `open-graph.image-alt` overrides the deck key for Quarto's copy alone, which is why the two copies on this site carry different text.
 
 ## Options
 
