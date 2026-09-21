@@ -107,14 +107,18 @@ The filter writes nineteen: five the deck did not have, and fourteen it already 
 
 : What each source contributes. {.striped .hover tbl-colwidths="[26,74]"}
 
-These counts are for a deck that gives `open-graph.image-width` and `open-graph.image-height` itself.
-Without them Quarto reads the image file for the two values, so a deck pointing at a missing image gets fewer tags from Quarto and more that only the filter writes.
+These counts are for a deck that gives `open-graph.image-width` and `open-graph.image-height` itself, and whose image exists.
+Quarto derives both values from the image file whatever the deck says, and the filter writes the two tags only when the deck gives them.
+Leave them out and the two tags move to the Quarto row.
+Give them and point the deck at a missing image, and they move to the filter row.
 
 Eleven of the fourteen duplicated tags carry the same value twice.
 Three do not:
 
-- `og:site_name`. The filter takes the site title, and Quarto takes the value given under `open-graph.site-name`.
-  Outside a website the filter takes `open-graph.site-name` itself, so this swap is a website effect rather than what the filter reads.
+- `og:site_name`. The two sources swap inside a website.
+  The filter's copy carries the site title, and Quarto's carries the value given under `open-graph.site-name`.
+  Render the same deck without the filter and Quarto's copy carries the site title instead, so the filter changes what Quarto writes as well as adding a copy of its own.
+  Outside a website the filter's copy carries `open-graph.site-name`.
 - `og:image:alt` and `twitter:image:alt`. Quarto describes the site's own social card, and the filter describes the image the deck set.
 
 The filter writes its tags as one block, and Quarto writes its own block after it.
