@@ -13,6 +13,7 @@ A link to a slide deck is shared far more often than the deck is opened, and a l
 `social` reads the social metadata already in a presentation's front matter and writes the corresponding `<meta>` tags into its head.
 
 ::: {.callout-important}
+
 ## Quarto now emits some of these itself
 
 On the Quarto version this site is built with, a RevealJS deck already receives sixteen social tags without any filter.
