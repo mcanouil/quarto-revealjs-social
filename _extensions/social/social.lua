@@ -132,9 +132,9 @@ local function process_document(doc)
 
   local meta = doc.meta
 
-  -- The schema decides what counts as false, so `enabled: no` disables the
-  -- filter. Reading the document itself left it running. The `Meta` pass above
-  -- resolves the value before this one runs.
+  -- The schema decides what counts as false. It refuses `no`, which is then
+  -- reported and leaves the filter running. The `Meta` pass above resolves the
+  -- value before this one runs.
   if checker:option('enabled') == false then
     return doc
   end

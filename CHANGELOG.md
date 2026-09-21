@@ -10,6 +10,7 @@
 
 ### Documentation
 
+- docs: Add a page for each group of social options, and turn the examples page into an overview that links to them.
 - docs: Serve the extension's social card as the Open Graph image, so a shared link shows the card rather than the first image on the page. (#18)
 
 ### Refactoring

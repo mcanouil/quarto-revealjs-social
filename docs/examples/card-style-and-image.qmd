@@ -1,0 +1,129 @@
+---
+title: "Card style and image type"
+subtitle: "The shape of the card, and the media type of its image."
+description: "How card-style fills twitter:card, what decides its default, and how image-type fills og:image:type for a RevealJS deck."
+---
+
+The filter acts on the `revealjs` format alone.
+A deck rendered to any other format keeps these options and receives no tag from the filter.
+
+The [Reference](../reference.qmd#metadata-resolution) gives the source order for every tag.
+This page shows what the two options do.
+
+## The image decides the default card style
+
+The filter writes `twitter:card` for every deck it acts on.
+X reads this tag to choose the layout of the card.
+With no `card-style` set, the value depends on whether the deck has an image.
+
+A deck with an image receives `summary_large_image`:
+
+```yaml
+title: "The Grammar of Graphics Assembles"
+site-url: "https://example.com/my-talk/"
+image: "assets/social-card.png"
+filters:
+  - social
+```
+
+```html
+<meta name="twitter:card" content="summary_large_image">
+```
+
+The same deck without `image` receives `summary` instead.
+
+```html
+<meta name="twitter:card" content="summary">
+```
+
+The site renders one deck with the filter and one without.
+The deck [with the filter](../preview.html) sets a PNG image, so its head carries `summary_large_image`.
+
+## Choosing the card style
+
+Two keys set the style.
+`twitter-card.card-style` is the standard Quarto key, and `extensions.social.card-style` is the fallback the filter reads after it.
+
+```yaml
+twitter-card:
+  card-style: summary
+```
+
+```yaml
+extensions:
+  social:
+    card-style: summary
+```
+
+Either one gives the filter the same tag.
+
+```html
+<meta name="twitter:card" content="summary">
+```
+
+The two keys part company inside a Quarto website.
+Quarto reads `twitter-card.card-style` as well, so that key sets both copies of the tag.
+Quarto never reads `extensions.social`, so the scoped key sets the filter's copy alone and the two copies then disagree.
+The filter writes its copy first.
+
+::: {.callout-warning}
+
+## The value is not checked
+
+The extension schema declares `card-style` as a string and gives no list of accepted values.
+The filter writes the value into the head exactly as the deck wrote it.
+A value that X does not accept therefore reaches the head, and the render reports nothing.
+:::
+
+## The media type of the image
+
+`og:image:type` is one of the tags the filter adds and Quarto does not write.
+The [Reference](../reference.qmd#overlap-with-quarto) lists the rest.
+
+The filter infers the media type from the file extension of the image.
+It recognises these extensions:
+
+- `.png` becomes `image/png`.
+- `.jpg` and `.jpeg` become `image/jpeg`.
+- `.gif` becomes `image/gif`.
+- `.webp` becomes `image/webp`.
+- `.svg` becomes `image/svg+xml`.
+
+A deck with an `assets/social-card.png` image therefore needs no configuration:
+
+```html
+<meta property="og:image:type" content="image/png">
+```
+
+## Naming a media type the filter cannot infer
+
+Any other extension leaves the tag out.
+An `.avif` image produces `og:image` with no `og:image:type` beside it.
+
+Set `image-type` to supply the value:
+
+```yaml
+site-url: "https://example.com/my-talk/"
+image: "assets/social-card.avif"
+filters:
+  - social
+extensions:
+  social:
+    image-type: "image/avif"
+```
+
+```html
+<meta property="og:image" content="https://example.com/my-talk/assets/social-card.avif">
+<meta property="og:image:type" content="image/avif">
+```
+
+`image-type` has no standard Quarto source.
+It is read from `extensions.social` alone, so `open-graph.image-type` does nothing.
+
+::: {.callout-caution}
+
+## Set `image-type` only beside an image
+
+The filter writes `og:image:type` from `image-type` even when the deck has no image.
+The head then carries a media type for an image that no tag names.
+:::

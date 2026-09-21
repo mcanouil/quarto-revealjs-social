@@ -1,0 +1,74 @@
+---
+title: "Attribution"
+subtitle: "Naming the site and the author on the card."
+description: "How twitter-site and twitter-creator fill twitter:site and twitter:creator, and where Quarto writes the same two tags."
+---
+
+A card can name the site that published the deck, and the person who wrote it.
+X reads `twitter:site` for the site and `twitter:creator` for the author.
+
+The filter acts on the `revealjs` format alone.
+Neither tag reaches a deck rendered to any other format.
+
+## The standard keys
+
+`twitter-card.site` and `twitter-card.creator` are the standard Quarto keys.
+The filter reads them first.
+
+```yaml
+title: "The Grammar of Graphics Assembles"
+site-url: "https://example.com/my-talk/"
+twitter-card:
+  site: "@quarto_pub"
+  creator: "@mcanouil"
+filters:
+  - social
+```
+
+```html
+<meta name="twitter:site" content="@quarto_pub">
+<meta name="twitter:creator" content="@mcanouil">
+```
+
+The deck [with the filter](../preview.html) sets `twitter-card.creator` and no `twitter-card.site`.
+Its head therefore carries `twitter:creator` and no `twitter:site`.
+
+## The scoped fallback
+
+`extensions.social.twitter-site` and `extensions.social.twitter-creator` are the fallback.
+The filter reads each one when the standard key beside it is absent.
+
+```yaml
+extensions:
+  social:
+    twitter-site: "@quarto_pub"
+    twitter-creator: "@mcanouil"
+```
+
+The result is the same pair of tags.
+The [Reference](../reference.qmd#metadata-resolution) gives the full source order.
+
+## Both tags are written twice on a website
+
+A Quarto website with `twitter-card` turned on writes these two tags itself, from the same two standard keys.
+A deck inside such a project therefore carries each tag twice, once from the filter and once from Quarto.
+
+Both copies hold the same value, so a scraper reads the same handle either way.
+The [Reference](../reference.qmd#overlap-with-quarto) describes the overlap between the two sources.
+
+::: {.callout-note}
+
+## The scoped fallback does not stop the second copy
+
+Quarto never reads `extensions.social`.
+A handle written there reaches the filter alone, and a `twitter-card` block in the same deck still gives Quarto its own copy.
+:::
+
+::: {.callout-warning}
+
+## The handle is not checked
+
+The extension schema declares both options as strings and gives no pattern.
+The filter writes the value into the head exactly as the deck wrote it.
+A handle without its leading `@` therefore reaches the head unchanged, and the render reports nothing.
+:::

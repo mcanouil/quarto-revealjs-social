@@ -61,8 +61,15 @@ website:
         text: "Home"
       - href: reference.qmd
         text: "Reference"
-      - href: examples.qmd
+      - section: examples.qmd
         text: "Examples"
+        contents:
+          - href: examples/card-style-and-image.qmd
+            text: "Card style and image type"
+          - href: examples/attribution.qmd
+            text: "Attribution"
+          - href: examples/switching-off.qmd
+            text: "Switching off"
       - text: "---"
       - href: changelog.qmd
         text: "Changelog"
