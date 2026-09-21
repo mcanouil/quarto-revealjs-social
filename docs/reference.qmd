@@ -118,13 +118,23 @@ Three do not:
 
 - `og:site_name`. The two sources swap inside a website.
   The filter's copy carries the site title, and Quarto's carries the value given under `open-graph.site-name`.
-  Render the same deck without the filter and Quarto's copy carries the site title instead, so the filter changes what Quarto writes as well as adding a copy of its own.
+  Render the same deck without the filter and Quarto's copy carries the site title instead.
+  The filter does not change what Quarto writes.
+  Quarto puts `open-graph.site-name` in its own tag, then overwrites the first `og:site_name` tag in the head with the site title.
+  With the filter present that first tag is the filter's, so the two look as though they have traded values.
+  This is a bug in Quarto, reported as [quarto-dev/quarto-cli#14917](https://github.com/quarto-dev/quarto-cli/issues/14917).
   Outside a website the filter's copy carries `open-graph.site-name`.
 - `og:image:alt` and `twitter:image:alt`. Quarto describes the site's own social card, and the filter describes the image the deck set.
 
 The filter writes its tags as one block, and Quarto writes its own block after it.
 A scraper reads the first copy it meets, which is the filter's.
 The [Examples](examples.qmd) page compares the two decks directly.
+
+Quarto reaches into the filter's block for four more tags.
+It picks `og:title`, `twitter:title`, `og:description` and `twitter:description` by position as well, rather than by who wrote them.
+The values usually match what the filter wrote, so nothing looks out of place.
+When they differ, Quarto wins.
+The filter writes the deck title on its own, and both copies come back with the site title appended.
 
 ## Limitations
 
